@@ -41,6 +41,7 @@ const Hero = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-slide-up" style={{ animationDelay: '0.6s' }}>
           <Button 
             size="lg" 
+            onClick={() => document.getElementById('caes')?.scrollIntoView({ behavior: 'smooth' })}
             className="hero-button group hover-lift bg-primary hover:bg-primary-glow text-primary-foreground px-8 py-4 text-lg font-semibold rounded-xl shadow-elegant hover:shadow-hover transition-all duration-300"
           >
             <Heart className="w-5 h-5 mr-2 group-hover:animate-pulse" />
@@ -50,6 +51,7 @@ const Hero = () => {
           <Button 
             variant="outline" 
             size="lg"
+            onClick={() => document.getElementById('veterinario')?.scrollIntoView({ behavior: 'smooth' })}
             className="glass-strong border-2 border-primary/30 hover:border-primary text-foreground hover:bg-primary/10 px-8 py-4 text-lg font-semibold rounded-xl hover-lift transition-all duration-300"
           >
             <Phone className="w-5 h-5 mr-2" />

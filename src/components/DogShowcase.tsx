@@ -1,173 +1,108 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Star, MapPin } from "lucide-react";
+import { Heart, Eye, Star } from "lucide-react";
+import { useDogs } from "@/hooks/useDogs";
+import { useToast } from "@/hooks/use-toast";
 
 const DogShowcase = () => {
-  const dogs = [
-    {
-      id: 1,
-      name: "Golden Retriever",
-      age: "3 meses",
-      price: "250.000 Kz",
-      image: "https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=300&fit=crop",
-      description: "Cão dócil, ideal para famílias com crianças",
-      features: ["Vacinado", "Pedigree", "Microchip"],
-      rating: 5,
-      available: true
-    },
-    {
-      id: 2,
-      name: "Pastor Alemão",
-      age: "4 meses",
-      price: "300.000 Kz",
-      image: "https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?w=400&h=300&fit=crop",
-      description: "Excelente cão de guarda, leal e inteligente",
-      features: ["Vacinado", "Pedigree", "Treinado"],
-      rating: 5,
-      available: true
-    },
-    {
-      id: 3,
-      name: "Labrador",
-      age: "2 meses",
-      price: "200.000 Kz",
-      image: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=400&h=300&fit=crop",
-      description: "Companheiro perfeito, muito carinhoso",
-      features: ["Vacinado", "Pedigree", "Socializado"],
-      rating: 5,
-      available: false
-    },
-    {
-      id: 4,
-      name: "Husky Siberiano",
-      age: "5 meses",
-      price: "350.000 Kz",
-      image: "https://images.unsplash.com/photo-1605568427561-40dd23c2acea?w=400&h=300&fit=crop",
-      description: "Enérgico e aventureiro, ideal para pessoas ativas",
-      features: ["Vacinado", "Pedigree", "Atletico"],
-      rating: 4,
-      available: true
-    },
-    {
-      id: 5,
-      name: "Bulldog Francês",
-      age: "3 meses",
-      price: "400.000 Kz",
-      image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=300&fit=crop",
-      description: "Pequeno, charmoso e perfeito para apartamentos",
-      features: ["Vacinado", "Pedigree", "Compacto"],
-      rating: 5,
-      available: true
-    },
-    {
-      id: 6,
-      name: "Border Collie",
-      age: "4 meses",
-      price: "280.000 Kz",
-      image: "https://images.unsplash.com/photo-1551717743-49959800b1f6?w=400&h=300&fit=crop",
-      description: "Muito inteligente, ótimo para treinamentos",
-      features: ["Vacinado", "Pedigree", "Inteligente"],
-      rating: 5,
-      available: true
-    }
-  ];
+  const { data: dogs, isLoading } = useDogs();
+  const { toast } = useToast();
+
+  const handleInterest = (dogName: string) => {
+    toast({
+      title: "Interesse registrado!",
+      description: `Seu interesse em ${dogName} foi registrado. Entraremos em contacto em breve.`,
+    });
+  };
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('pt-AO', {
+      style: 'currency',
+      currency: 'AOA',
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
+
+  const getBreedDisplayName = (breed: string) => {
+    const breedNames: { [key: string]: string } = {
+      'pastor_alemao': 'Pastor Alemão',
+      'golden_retriever': 'Golden Retriever',
+      'labrador': 'Labrador',
+      'rottweiler': 'Rottweiler',
+      'outro': 'Outro'
+    };
+    return breedNames[breed] || breed;
+  };
+
+  // Show featured dogs (first 3)
+  const featuredDogs = dogs?.slice(0, 3) || [];
 
   return (
     <section className="py-20 px-4" id="caes">
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Cães Disponíveis no Namibe
+            Cães em Destaque
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Encontre o companheiro perfeito para sua família. Todos os nossos cães 
-            vêm com garantia de saúde e documentação completa.
+            Conheça alguns dos nossos cães disponíveis na província do Namibe.
           </p>
         </div>
 
-        {/* Dogs Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {dogs.map((dog) => (
-            <Card key={dog.id} className="glass-strong hover-lift group overflow-hidden">
-              {/* Image */}
-              <div className="relative overflow-hidden">
-                <img 
-                  src={dog.image} 
-                  alt={dog.name}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute top-4 left-4">
-                  {dog.available ? (
-                    <Badge className="bg-green-500 text-white">Disponível</Badge>
-                  ) : (
-                    <Badge variant="destructive">Vendido</Badge>
-                  )}
-                </div>
-                <div className="absolute top-4 right-4">
-                  <Button 
-                    size="sm" 
-                    variant="ghost" 
-                    className="w-8 h-8 p-0 bg-white/20 hover:bg-white/30 backdrop-blur-sm"
-                  >
-                    <Heart className="w-4 h-4 text-white" />
-                  </Button>
-                </div>
-              </div>
+        {isLoading && (
+          <div className="text-center py-12">
+            <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Carregando cães disponíveis...</p>
+          </div>
+        )}
 
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                    {dog.name}
-                  </CardTitle>
-                  <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        className={`w-4 h-4 ${i < dog.rating ? 'text-yellow-500 fill-current' : 'text-gray-300'}`} 
-                      />
-                    ))}
-                  </div>
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          {featuredDogs.map((dog) => (
+            <Card key={dog.id} className="glass-strong hover-lift group cursor-pointer">
+              <CardHeader className="text-center pb-4">
+                <div className="w-24 h-24 mx-auto mb-4 text-6xl flex items-center justify-center">
+                  🐕
                 </div>
-                <CardDescription className="text-sm text-muted-foreground">
-                  {dog.age} • {dog.description}
+                <CardTitle className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                  {dog.name}
+                </CardTitle>
+                <CardDescription className="text-muted-foreground">
+                  {getBreedDisplayName(dog.breed)} • {Math.floor(dog.age_months / 12)} anos
                 </CardDescription>
               </CardHeader>
-
+              
               <CardContent className="pt-0">
-                {/* Features */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {dog.features.map((feature, idx) => (
-                    <Badge key={idx} variant="outline" className="text-xs">
-                      {feature}
+                <p className="text-sm text-foreground/80 mb-4">
+                  {dog.description || `${getBreedDisplayName(dog.breed)} de alta qualidade`}
+                </p>
+
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {dog.vaccinated && (
+                    <Badge variant="secondary" className="bg-primary/20 text-primary">
+                      <Star className="w-3 h-3 mr-1 fill-current" />
+                      Vacinado
                     </Badge>
-                  ))}
+                  )}
+                  {dog.pedigree && (
+                    <Badge variant="secondary" className="bg-primary/20 text-primary">
+                      <Star className="w-3 h-3 mr-1 fill-current" />
+                      Pedigree
+                    </Badge>
+                  )}
                 </div>
 
-                {/* Price */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-2xl font-bold text-primary">{dog.price}</div>
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <MapPin className="w-4 h-4" />
-                    <span>Namibe</span>
-                  </div>
+                <div className="text-center mb-6">
+                  <div className="text-2xl font-bold text-primary">{formatPrice(dog.price)}</div>
                 </div>
 
-                {/* Actions */}
-                <div className="flex gap-2">
+                <div className="space-y-2">
                   <Button 
-                    className="flex-1 bg-primary hover:bg-primary-glow text-primary-foreground font-semibold rounded-lg hover-lift"
-                    disabled={!dog.available}
+                    onClick={() => handleInterest(dog.name)}
+                    className="w-full bg-primary hover:bg-primary-glow text-primary-foreground font-semibold hover-lift"
                   >
-                    {dog.available ? 'Comprar' : 'Indisponível'}
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="glass border-primary/30 hover:border-primary text-foreground hover:bg-primary/10"
-                  >
-                    Detalhes
+                    <Heart className="w-4 h-4 mr-2" />
+                    Tenho Interesse
                   </Button>
                 </div>
               </CardContent>
@@ -175,14 +110,18 @@ const DogShowcase = () => {
           ))}
         </div>
 
-        {/* View More Button */}
-        <div className="text-center mt-12">
+        <div className="text-center glass-strong rounded-2xl p-8">
+          <h3 className="text-2xl font-bold text-foreground mb-4">
+            Mais de {dogs?.length || 4} Cães Disponíveis
+          </h3>
+          <p className="text-muted-foreground mb-6">
+            Explore nosso catálogo completo no Namibe.
+          </p>
           <Button 
             size="lg"
-            variant="outline"
-            className="glass-strong border-2 border-primary/30 hover:border-primary text-foreground hover:bg-primary/10 px-8 py-4 text-lg font-semibold rounded-xl hover-lift"
+            className="bg-primary hover:bg-primary-glow text-primary-foreground px-8 py-3 rounded-lg font-semibold hover-lift"
           >
-            Ver Mais Cães Disponíveis
+            Ver Todos os Cães
           </Button>
         </div>
       </div>

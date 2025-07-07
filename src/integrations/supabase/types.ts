@@ -14,7 +14,250 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      accessories: {
+        Row: {
+          available: boolean | null
+          brand: string | null
+          category: Database["public"]["Enums"]["accessory_category"]
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          name: string
+          price: number
+          stock_quantity: number | null
+          updated_at: string
+        }
+        Insert: {
+          available?: boolean | null
+          brand?: string | null
+          category: Database["public"]["Enums"]["accessory_category"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name: string
+          price: number
+          stock_quantity?: number | null
+          updated_at?: string
+        }
+        Update: {
+          available?: boolean | null
+          brand?: string | null
+          category?: Database["public"]["Enums"]["accessory_category"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          name?: string
+          price?: number
+          stock_quantity?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      dogs: {
+        Row: {
+          age_months: number
+          available: boolean | null
+          breed: Database["public"]["Enums"]["dog_breed"]
+          created_at: string
+          description: string | null
+          gender: Database["public"]["Enums"]["dog_gender"]
+          id: string
+          image_url: string | null
+          name: string
+          pedigree: boolean | null
+          price: number
+          seller_id: string | null
+          size: Database["public"]["Enums"]["dog_size"]
+          updated_at: string
+          vaccinated: boolean | null
+        }
+        Insert: {
+          age_months: number
+          available?: boolean | null
+          breed: Database["public"]["Enums"]["dog_breed"]
+          created_at?: string
+          description?: string | null
+          gender: Database["public"]["Enums"]["dog_gender"]
+          id?: string
+          image_url?: string | null
+          name: string
+          pedigree?: boolean | null
+          price: number
+          seller_id?: string | null
+          size: Database["public"]["Enums"]["dog_size"]
+          updated_at?: string
+          vaccinated?: boolean | null
+        }
+        Update: {
+          age_months?: number
+          available?: boolean | null
+          breed?: Database["public"]["Enums"]["dog_breed"]
+          created_at?: string
+          description?: string | null
+          gender?: Database["public"]["Enums"]["dog_gender"]
+          id?: string
+          image_url?: string | null
+          name?: string
+          pedigree?: boolean | null
+          price?: number
+          seller_id?: string | null
+          size?: Database["public"]["Enums"]["dog_size"]
+          updated_at?: string
+          vaccinated?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dogs_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          address: string | null
+          city: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          phone: string | null
+          province: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          city?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          province?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          city?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          province?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      vet_appointments: {
+        Row: {
+          appointment_date: string
+          client_id: string
+          created_at: string
+          id: string
+          notes: string | null
+          service_type: string
+          status: Database["public"]["Enums"]["appointment_status"] | null
+          total_price: number | null
+          updated_at: string
+          veterinarian_id: string
+        }
+        Insert: {
+          appointment_date: string
+          client_id: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          service_type: string
+          status?: Database["public"]["Enums"]["appointment_status"] | null
+          total_price?: number | null
+          updated_at?: string
+          veterinarian_id: string
+        }
+        Update: {
+          appointment_date?: string
+          client_id?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          service_type?: string
+          status?: Database["public"]["Enums"]["appointment_status"] | null
+          total_price?: number | null
+          updated_at?: string
+          veterinarian_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vet_appointments_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "vet_appointments_veterinarian_id_fkey"
+            columns: ["veterinarian_id"]
+            isOneToOne: false
+            referencedRelation: "veterinarians"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      veterinarians: {
+        Row: {
+          address: string | null
+          available_hours: Json | null
+          clinic_name: string
+          consultation_price: number
+          created_at: string
+          id: string
+          license_number: string
+          phone: string | null
+          specialties: string[] | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          address?: string | null
+          available_hours?: Json | null
+          clinic_name: string
+          consultation_price: number
+          created_at?: string
+          id?: string
+          license_number: string
+          phone?: string | null
+          specialties?: string[] | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          address?: string | null
+          available_hours?: Json | null
+          clinic_name?: string
+          consultation_price?: number
+          created_at?: string
+          id?: string
+          license_number?: string
+          phone?: string | null
+          specialties?: string[] | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "veterinarians_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +266,28 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      accessory_category:
+        | "racao"
+        | "brinquedos"
+        | "coleiras"
+        | "camas"
+        | "higiene"
+        | "outro"
+      appointment_status: "agendado" | "confirmado" | "concluido" | "cancelado"
+      dog_breed:
+        | "pastor_alemao"
+        | "golden_retriever"
+        | "labrador"
+        | "bulldog"
+        | "poodle"
+        | "rottweiler"
+        | "doberman"
+        | "husky"
+        | "beagle"
+        | "boxer"
+        | "outro"
+      dog_gender: "macho" | "femea"
+      dog_size: "pequeno" | "medio" | "grande"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +414,31 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      accessory_category: [
+        "racao",
+        "brinquedos",
+        "coleiras",
+        "camas",
+        "higiene",
+        "outro",
+      ],
+      appointment_status: ["agendado", "confirmado", "concluido", "cancelado"],
+      dog_breed: [
+        "pastor_alemao",
+        "golden_retriever",
+        "labrador",
+        "bulldog",
+        "poodle",
+        "rottweiler",
+        "doberman",
+        "husky",
+        "beagle",
+        "boxer",
+        "outro",
+      ],
+      dog_gender: ["macho", "femea"],
+      dog_size: ["pequeno", "medio", "grande"],
+    },
   },
 } as const
