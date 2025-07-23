@@ -49,9 +49,9 @@ Paleta de cores quentes evocando o ambiente angolano
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
     --gradient-hero: linear-gradient(180deg, 
-      hsl(var(--hero-overlay) / 0.8) 0%, 
-      hsl(var(--hero-overlay) / 0.4) 50%, 
-      hsl(var(--hero-overlay) / 0.8) 100%);
+      hsl(var(--hero-overlay) / 0.92) 0%, 
+      hsl(var(--hero-overlay) / 0.7) 50%, 
+      hsl(var(--hero-overlay) / 0.92) 100%);
     --gradient-glass: linear-gradient(135deg, 
       hsl(var(--glass-bg) / 0.1), 
       hsl(var(--glass-bg) / 0.05));

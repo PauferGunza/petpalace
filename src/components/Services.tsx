@@ -35,10 +35,10 @@ const Services = () => {
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-orange-500 mb-4 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
             Nossos Serviços no Namibe
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-white max-w-2xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
             Oferecemos uma gama completa de serviços para o seu melhor amigo, 
             com qualidade e cuidado que você pode confiar na província do Namibe.
           </p>
@@ -47,7 +47,7 @@ const Services = () => {
         {/* Services Grid */}
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           {services.map((service, index) => (
-            <Card key={index} className="glass-strong hover-lift group cursor-pointer">
+            <Card key={index} className="hover-lift group cursor-pointer">
               <CardHeader className="text-center pb-4">
                 <div className={`w-16 h-16 mx-auto mb-4 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                   <service.icon className={`w-8 h-8 ${service.color}`} />
@@ -88,12 +88,12 @@ const Services = () => {
         </div>
 
         {/* Location Highlight */}
-        <div className="glass-strong rounded-2xl p-8 text-center">
+        <div className="rounded-2xl p-8 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <MapPin className="w-6 h-6 text-primary" />
-            <h3 className="text-2xl font-bold text-foreground">Localização Privilegiada</h3>
+            <h3 className="text-2xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">Localização Privilegiada</h3>
           </div>
-          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+          <p className="text-gray-400 mb-6 max-w-2xl mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
             Estamos estrategicamente localizados na província do Namibe para melhor servir 
             você e seu companheiro de quatro patas. Venha nos visitar!
           </p>
@@ -108,7 +108,7 @@ const Services = () => {
             <Button 
               variant="outline" 
               size="lg"
-              className="glass border-primary/30 hover:border-primary text-foreground hover:bg-primary/10 px-8 py-3 rounded-lg font-semibold hover-lift"
+              className="border-primary/30 hover:border-primary text-foreground hover:bg-primary/10 px-8 py-3 rounded-lg font-semibold hover-lift"
             >
               <MapPin className="w-5 h-5 mr-2" />
               Ver Localização
